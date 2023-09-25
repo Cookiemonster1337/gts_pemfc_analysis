@@ -3,7 +3,7 @@ from plotly.offline import download_plotlyjs, init_notebook_mode, plot
 import plotly.graph_objs as go
 import pandas as pd
 import plotly.express as px
-from pol_comp import pemfc_pol_fce
+from pol_fitting import pemfc_pol_fce
 
 file = r'dataframes\kcs#01_pol.csv'
 palette = px.colors.qualitative.Bold
@@ -11,8 +11,6 @@ palette = px.colors.qualitative.Bold
 test_data_df = pd.read_csv(file, encoding='cp1252', low_memory=False)
 
 test_data_df = test_data_df.sort_values(by='Time Stamp', ascending=True)
-
-mask = ()
 
 test_data_df = test_data_df[
     test_data_df['File Mark'].str.contains('polcurve_inc', na=False)

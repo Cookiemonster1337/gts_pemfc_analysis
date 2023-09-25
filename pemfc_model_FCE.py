@@ -45,11 +45,21 @@ traces.append(
     go.Scatter(x=j_range,
                y=th_u_cell,
                mode="lines",
-               marker=dict(size=10, color='green'),
-               name='act + co + ohmic loss + conc. loss.',
+               marker=dict(size=10, color='black'),
+               name='all. losses',
                yaxis='y1'
                )
 )
+
+# traces.append(
+#     go.Scatter(x=j_range,
+#                y=th_u_cell,
+#                mode="lines",
+#                marker=dict(size=10, color='green'),
+#                name='activation losses (CCL)',
+#                yaxis='y1'
+#                )
+# )
 
 # PLOTTTING
 fig_data = traces
