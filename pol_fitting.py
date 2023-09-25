@@ -108,11 +108,92 @@ def pemfc_pol_fce(j_range,E_oc=1.2,A=0.06,r=0.0027,m=0.000035,n=0.11,name=''):
 
 # FITTING PARAMETERS ###################################################################################################
 
-# def pemfc_pol_kulikovsky(j_range,E=1.2,b=0.03,j0=):
-#
-#     for j in j_range:
-#         u_th = b * math.arcsinh(((j0 / j_sigma) ** 2) / (2 * (c_h / c_ref) * (1 - math.exp(-j0 / (2 * j_star))))) \
-#                + ((sigma_t * b ** 2) / (4 * F * D_ch)) * (
-#                            (j0 / j - star) - math.log(1 + (j_0 ** 2 / (j_star ** 2 * beta ** 2)))) * (
-#                            1 - (j0 / (jlim_star * (c_h / c_ref)))) ** -1 \
-#                - b * math.log(1 - (j0 / (jlim_star * (c_h / c_ref))))
+def pemfc_pol_kulikovsky(j_range=[j for j in range(1, 2000)],
+                         b=0.03,
+                         r=0.126,
+                         D=1.36E-4,
+                         sigma_t=0.03,
+                         E_oc=1.145,
+                         c_h=7.36E-6,
+                         i_x = 0.817E-3,
+                         l_t = 0.001,
+                         D_b = 0.0259,
+                         l_b = 0.025,
+                         name=''):
+
+    trace_pol_th=[]
+    u_th = []
+    loss_ohm = []
+    loss_act = []
+
+    c_h_x = c_h
+    c_ref = c_h
+    F = 96485
+    j_sigma = math.sqrt(2*i_x *sigma_t * b)
+    j_x = (sigma_t * b) / l_t
+    jlim_x = ((4*F*D_b*c_h_x)/l_b)
+
+    for j in j_range:
+
+        j_0 = j/1000
+
+        beta = (math.sqrt(2 * j_0) / (1 + math.sqrt(1.12 * j_0) * math.exp(math.sqrt(2 * j_0)))) + (math.pi * j_0) / (
+                    2 + j_0)
+
+        u_loss = b * math.asinh(((j_0 / j_sigma) ** 2) / (2 * (c_h / c_ref) * (1 - math.exp(-j_0 / (2 * j_x))))) \
+               + ((sigma_t * b ** 2) / (4 * F * D * c_h)) * ((j_0 / j_x) - math.log(1 + (j_0 ** 2 / (j_x** 2 * beta ** 2)))) * (1 - (j_0 / (jlim_x * (c_h / c_ref)))) ** -1 \
+               - b * math.log(1 - (j_0 / (jlim_x * (c_h / c_ref))))
+
+        loss_ohm.append(r*j_0)
+
+        loss_act.append(u_loss)
+
+        u_th.append(E_oc - u_loss - r*j_0)
+
+    trace_pol_th.append(go.Scatter(x=j_range,
+                                   y=u_th,
+                                   name=name + ' (curve)',
+                                   mode="lines",
+                                   line=dict(width=1),
+                                   marker=dict(size=10, color='red'),
+                                   yaxis='y1'
+                                   )
+                        )
+
+    trace_pol_th.append(go.Scatter(x=j_range,
+                                   y=loss_ohm,
+                                   name=name + ' (ohm. losses)',
+                                   mode="lines",
+                                   line=dict(width=1),
+                                   marker=dict(size=10, color='blue'),
+                                   yaxis='y1'
+                                   )
+                        )
+
+    trace_pol_th.append(go.Scatter(x=j_range,
+                                   y=loss_act,
+                                   name=name + ' (act. losses)',
+                                   mode="lines",
+                                   line=dict(width=1),
+                                   marker=dict(size=10, color='green'),
+                                   yaxis='y1'
+                                   )
+                        )
+
+    trace_pol_th.append(go.Scatter(x=[0],
+                                   y=[E_oc],
+                                   name=name + ' (OCV)',
+                                   mode="markers",
+                                   line=dict(width=1),
+                                   marker=dict(size=10, color='red'),
+                                   yaxis='y1'
+                                   )
+                        )
+
+    return trace_pol_th
+
+
+
+
+
+
