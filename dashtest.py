@@ -10,13 +10,12 @@ j = [j for j in range(1,400)]
 
 colors = {'zbt':'#005EB8'}
 
-app = Dash(external_stylesheets=[dbc.themes.DARKLY])
+app = Dash()
 
 app.layout = dbc.Container([
 
 # TITLE
     dbc.Row([
-        dbc.Col([
         html.Div(['Polarization Curve Fitting'
                   ], style={'font-family': 'Arial',
                       'font-size': '16px',
@@ -24,20 +23,16 @@ app.layout = dbc.Container([
                       'textAlign': 'center',
                       'color': 'black'}
                  ),
-]),
-
-    ], style={'background-color': 'lightblue'}),
+    ], style={'background-color': 'white'}),
 
 # PLOT OF POLARIZATION-CURVE MODEL (according to FCE)
     dbc.Row([
         dcc.Graph(id='graph'),
-    ], style={'background-color': 'lightblue'}),
+    ], style={'background-color': 'white'}),
 
 # SLIDER - OPEN CIRCUIT POTENTIAL
     dbc.Row([
-
         dbc.Col([
-
             html.Div([
                 'Open Circuit Potential (E_oc)'
             ], style={'font-family': 'Arial',
@@ -47,7 +42,7 @@ app.layout = dbc.Container([
                       'color': 'black'}
             )
 
-        ], width=2, style={'background-color': 'lightgrey'}),
+        ], width=3, style={'background-color': 'white'}),
 
         dbc.Col([
 
@@ -59,9 +54,9 @@ app.layout = dbc.Container([
                 updatemode='drag',
             )
 
-        ], width=10, style={'background-color': 'darkblue'}),
+        ], width=9, style={'background-color': 'white'}),
 
-    ], style={'background-color': 'lightblue'}, align='center'),
+    ], style={'background-color': 'white'}, align='center'),
 
 # SLIDER - CCL ACTIVITY
     dbc.Row([
@@ -76,7 +71,7 @@ app.layout = dbc.Container([
                       'textAlign': 'center',
                       'color': 'black'})
 
-        ], width=4),
+        ], width=3, style={'background-color': 'white'}),
 
         dbc.Col([
 
@@ -88,9 +83,9 @@ app.layout = dbc.Container([
                 # tooltip={"placement": "bottom", "always_visible": True},
             ),
 
-        ], width=6),
+        ], width=9, style={'background-color': 'white'}),
 
-    ], align='center'),
+    ], align='center', style={'background-color': 'white'}),
 
     # SLIDER - AREA SPECIFIC RESISTANCE [kOhm]
     dbc.Row([
@@ -105,7 +100,7 @@ app.layout = dbc.Container([
                       'textAlign': 'center',
                       'color': 'black'})
 
-        ]),
+        ], width=3, style={'background-color': 'white'}),
 
         dbc.Col([
 
@@ -118,9 +113,9 @@ app.layout = dbc.Container([
                 updatemode='drag'
             ),
 
-        ]),
+        ], width=9, style={'background-color': 'white'}),
 
-    ]),
+    ], align='center', style={'background-color': 'white'}),
 
     # SLIDER - AREA SPECIFIC RESISTANCE [kOhm]
     dbc.Row([
@@ -136,7 +131,7 @@ app.layout = dbc.Container([
                       'color': 'black'}
             )
 
-        ], width=10),
+        ], width=3, style={'background-color': 'white'}),
 
         dbc.Col([
 
@@ -149,9 +144,9 @@ app.layout = dbc.Container([
                 updatemode='drag'
                 ),
 
-        ], width=2),
+        ], width=9, style={'background-color': 'white'}),
 
-    ]),
+    ], align='center', style={'background-color': 'white'}),
 
     # SLIDER - AREA SPECIFIC RESISTANCE [kOhm]
     dbc.Row([
@@ -166,7 +161,7 @@ app.layout = dbc.Container([
                       'textAlign': 'center',
                       'color': 'black'})
 
-        ], width=10),
+        ], width=3, style={'background-color': 'white'}),
 
         dbc.Col([
 
@@ -178,9 +173,9 @@ app.layout = dbc.Container([
                 updatemode='drag'
             ),
 
-        ], width=2),
+        ], width=9, style={'background-color': 'white'}),
 
-    ], align='center'),
+    ], align='center', style={'background-color': 'white'}),
 
 ],
 )
@@ -289,10 +284,8 @@ def updateFigure(
     return figure
 
 # app.css.append_css({
-#     'external_': (
-#         r'\assets\custom.css'  # Replace with your custom CSS URL
-#     )
-# })
+#     'external_url': 'custom.css'}
+# )
 
 
 app.run_server(debug=True)
